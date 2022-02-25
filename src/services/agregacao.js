@@ -1,37 +1,15 @@
 const poloniex = require('../provider/poloniexConsumer');
 const connect = require('../../repository');
 const convert = require('./eToNumber');
+const takeValues = require('./takeValues');
 
 module.exports = {
   saveData() {
-      let counter_1 = 0;
-      let counter_5 = 0;
-      let counter_10 = 0;
-      let counter_11 = 0;
-      let aux_1 = 0;
-      let aux_5 = 0;
-      let aux_10 = 0;
+      let counter_1 = 0, counter_5 = 0 , counter_10 = 0, counter_11 = 0;
+      let aux_1 = 0, aux_5 = 0, aux_10 = 0;
       var cotacoes = [];
-      var BTC_BTS = [];
-      var BTC_DASH = [];
-      var BTC_DOGE = [];
-      var BTC_LTC = [];
-      var BTC_NXT = [];
-      var takeHighValue_BTC_BTS  = [];
-      var takeHighValue_BTC_DASH = [];
-      var takeHighValue_BTC_DOGE = [];
-      var takeHighValue_BTC_LTC = [];
-      var takeHighValue_BTC_NXT = [];
-      var takeLowvalues_BTC_BTS = [];
-      var takeLowvalues_BTC_DASH = [];
-      var takeLowvalues_BTC_DOGE = [];
-      var takeLowvalues_BTC_LTC = [];
-      var takeLowvalues_BTC_NXT = [];
-
-
       var obj = [];
       var adicionar ; 
-
 
 
         let timer = setInterval(async () => { 
@@ -47,8 +25,15 @@ module.exports = {
             console.log('tamanho vetor principal',obj.length);
             
             if (counter_1  == 3){
-                console.log('grava de 1 min');
-            //Faz cópia do vetor principal 
+                //Vetores para tratar algumas moedas do json
+                var BTC_BTS     = [];
+                var BTC_DASH    = [];
+                var BTC_DOGE    = [];
+                var BTC_LTC     = [];
+                var BTC_NXT     = [];
+
+                console.log('1 min');
+                //Faz cópia do vetor principal 
                 var copy = [];
                 for( var i = 0 in obj) {
                     console.log('indice', i);
@@ -68,82 +53,83 @@ module.exports = {
                     i++;
                 }
 
-                for (var j = 0 in BTC_BTS){
-                    //percorre vetor pegar as info
-                    takeHighValue_BTC_BTS.push(BTC_BTS[j].highestBid);
-                    takeLowvalues_BTC_BTS.push(BTC_BTS[j].lowestAsk);
-                }
-                var high_BTC_BTS = convert.eToNumber(takeHighValue_BTC_BTS.reduce(function(a, b) {
-                    return Math.max(a, b);
-                  }, -Infinity));
-                var low_BTC_BTS = convert.eToNumber(takeLowvalues_BTC_BTS.reduce(function(a, b) {
-                    return Math.min(a, b);
-                  }, +Infinity));
-                var moeda_BTC_BTS = 'BTC_BTS';
-                var open_BTC_BTS = BTC_BTS[0].last;
-                var close_BTC_BTS = BTC_BTS[BTC_BTS.length - 1].last;
-                var store =  await connect.store(moeda_BTC_BTS, periodicidade, open_BTC_BTS, low_BTC_BTS, high_BTC_BTS, close_BTC_BTS);
-
-
-                for (var l = 0 in BTC_DASH){
-                    //percorre vetor pegar as info
-                    takeHighValue_BTC_DASH.push(BTC_DASH[l].highestBid);
-                    takeLowvalues_BTC_DASH.push(BTC_DASH[l].lowestAsk);
-                }
-                
-                var high_BTC_DASH = convert.eToNumber(takeHighValue_BTC_DASH.reduce(function(a, b) {
-                    return Math.max(a, b);
-                  }, -Infinity));
-                var low_BTC_DASH = convert.eToNumber(takeLowvalues_BTC_DASH.reduce(function(a, b) {
-                    return Math.min(a, b);
-                  }, +Infinity));
-                var moeda_BTC_DASH = 'BTC_DASH';
-                var open_BTC_DASH = BTC_DASH[0].last;
-                var close_BTC_DASH = BTC_DASH[BTC_DASH.length - 1].last;
-                var store1 =  await connect.store(moeda_BTC_DASH, periodicidade, open_BTC_DASH, low_BTC_DASH, high_BTC_DASH, close_BTC_DASH);
-
-                /*for (var j = 0 in BTC_DOGE){
-                    //percorre vetor pegar as info
-                    takeHighValue_BTC_DOGE.push(BTC_DOGE[j].highestBid);
-                    takeLowvalues_BTC_DOGE.push(BTC_DOGE[j].lowestAsk);
-                }
-                var high_BTC_DOGE = convert.eToNumber(takeHighValue_BTC_DOGE.reduce(function(a, b) {
-                    return Math.max(a, b);
-                  }, -Infinity));
-                var low_BTC_DOGE = convert.eToNumber(takeLowvalues_BTC_DOGE.reduce(function(a, b) {
-                    return Math.min(a, b);
-                  }, +Infinity));
-                var moeda_BTC_DOGE = 'BTC_DOGE';
-                var open_BTC_DOGE = BTC_DOGE[0].last;
-                var close_BTC_DOGE = BTC_DOGE[BTC_DOGE.length - 1].last;
-                var store2 =  await connect.store(moeda_BTC_DOGE, periodicidade, open_BTC_DOGE, low_BTC_DOGE, high_BTC_DOGE, close_BTC_DOGE);
-                */
-                /*for (var j = 0 in BTC_LTC){
-                    //percorre vetor pegar as info
-                    takeHighValue_BTC_LTC.push(BTC_LTC[j].highestBid);
-                    takeLowvalues_BTC_LTC.push(BTC_LTC[j].lowestAsk);
-                }
-                for (var j = 0 in BTC_NXT){
-                    //percorre vetor pegar as info
-                    takeHighValue_BTC_NXT.push(BTC_NXT[j].highestBid);
-                    takeLowvalues_BTC_NXT.push(BTC_NXT[j].lowestAsk);
-                }*/
-
-                
-        
+                takeValues.storedata(BTC_BTS, BTC_DASH,BTC_DOGE,BTC_LTC,BTC_NXT, periodicidade);
+          
                 aux_1 = i;
                 counter_1  = 0;
-                BTC_BTS = [];
+                BTC_BTS = [], BTC_DASH =[]; BTC_DOGE =[]; BTC_LTC =[]; BTC_NXT =[];
             }
+
             if (counter_5  == 5){
-                console.log('grava de 5 min');
+
+                var BTC_BTS_5     = [];
+                var BTC_DASH_5    = [];
+                var BTC_DOGE_5    = [];
+                var BTC_LTC_5     = [];
+                var BTC_NXT_5     = [];
+
+                console.log('5 min');
+
+                var copy_5 = [];
+                for( var i = 0 in obj) {
+                    console.log('indice', i);
+                    console.log('vetor', obj[i]);
+                    copy_5[i] =  obj[i];
+                    i++;
+                }
+                var pos = aux_5, n = 3;
+                var ultima_cotacao = copy_5.splice(pos, n);
+                var periodicidade = '1 min';
+                for( var i = 0 in ultima_cotacao) {
+                    BTC_BTS_5.push(ultima_cotacao[i].BTC_BTS);
+                    BTC_DASH_5.push(ultima_cotacao[i].BTC_DASH);
+                    BTC_DOGE_5.push(ultima_cotacao[i].BTC_DOGE);
+                    BTC_LTC_5.push(ultima_cotacao[i].BTC_LTC);
+                    BTC_NXT_5.push(ultima_cotacao[i].BTC_NXT);
+                    i++;
+                }
+
+                takeValues.storedata(BTC_BTS_5, BTC_DASH_5,BTC_DOGE_5,BTC_LTC_5,BTC_NXT_5, periodicidade);
+          
+                aux_5 = i;
                 counter_5  = 0;
+                BTC_BTS_5 = [], BTC_DASH_5 =[]; BTC_DOGE_5 =[]; BTC_LTC_5 =[]; BTC_NXT_5 =[];
             }
+
             if (counter_10  == 9){
-                console.log('grava de 10 min');
+
+                var BTC_BTS_10     = [];
+                var BTC_DASH_10    = [];
+                var BTC_DOGE_10    = [];
+                var BTC_LTC_10     = [];
+                var BTC_NXT_10     = [];
+                console.log('10 min');
+               
+                var copy_10 = [];
+                for( var i = 0 in obj) {
+                    console.log('indice', i);
+                    console.log('vetor', obj[i]);
+                    copy_10[i] =  obj[i];
+                    i++;
+                }
+                var pos = aux_10, n = 3; //alterar o n pela quantidade de segundos
+                var ultima_cotacao = copy_10.splice(pos, n);
+                var periodicidade = '1 min';
+                for( var i = 0 in ultima_cotacao) {
+                    BTC_BTS_10.push(ultima_cotacao[i].BTC_BTS);
+                    BTC_DASH_10.push(ultima_cotacao[i].BTC_DASH);
+                    BTC_DOGE_10.push(ultima_cotacao[i].BTC_DOGE);
+                    BTC_LTC_10.push(ultima_cotacao[i].BTC_LTC);
+                    BTC_NXT_10.push(ultima_cotacao[i].BTC_NXT);
+                    i++;
+                }
+
+                takeValues.storedata(BTC_BTS_10, BTC_DASH_10,BTC_DOGE_10,BTC_LTC_10,BTC_NXT_10, periodicidade);
+          
+                aux_10 = i;
                 counter_10  = 0;
-                cotacoes = [];
-                //console.log(cotacoes.length);
+                BTC_BTS_10 = [], BTC_DASH_10 =[]; BTC_DOGE_10 =[]; BTC_LTC_10 =[]; BTC_NXT_10 =[];
+                //cotacoes = [];
             }
         }, 10000);
 
