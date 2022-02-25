@@ -1,6 +1,4 @@
 const pool = require('./src/config/connection');
-const connectionMiddleware = require('./src/config/middleware');
-
 module.exports = {
 
     async store(moeda, periodicidade, open, low, high, close){
