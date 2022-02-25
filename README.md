@@ -1,4 +1,5 @@
-Documentação teste prático SmarttBot
+Documentação teste prático
+-Ana Paula Piedade
 
 #Execução: 
 A aplicação foi desenvolvida em node.js, tanto a aplicação quanto o banco de dados estão configurados para ser executado em containers. 
