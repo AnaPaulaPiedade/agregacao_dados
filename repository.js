@@ -1,31 +1,27 @@
-const connection = require('./src/config/connection');
+const pool = require('./src/config/connection');
+const connectionMiddleware = require('./src/config/middleware');
 
 module.exports = {
-    
-    
-    async index(req, res){
 
-        newConnection = connection.newConnection();
-        let sql = "select * from users;"
-        await newConnection.connect(function(err) {
-            if (err){
-                newConnection.end()
+    async store(moeda, periodicidade, open, low, high, close){
+        //newConnection = connection.newConnection();        
+   
+        const deleted = 0;
+
+        let sql = `INSERT INTO candles (moeda, periodicidade, open, low, high, close)
+        VALUES ("${moeda}","${periodicidade}","${open}","${low}","${high}","${close}")`;
+
+        pool.getConnection(function(err, connection){
+            if(err){
                 return console.log(err);
-            } 
-            console.log("Connected!");
-            newConnection.query(sql, function (err, result) {
-                if (err){
-                    newConnection.end()
-                    return console.log(err);
-                   
-                } 
-                newConnection.end()
-                return console.log(result);
+            }
+        
+            connection.query(sql,function(err, data){
+                connection.release();
+                console.log(err, data);
             });
-        }); 
-
-    },
-
+        });
     
-
+    }
+ 
 };
