@@ -30,6 +30,7 @@ module.exports = {
     var moeda_BTC_BTS = 'BTC_BTS';
     var open_BTC_BTS = BTC_BTS[0].last;
     var close_BTC_BTS = BTC_BTS[BTC_BTS.length - 1].last;
+
     var store = connect.store(moeda_BTC_BTS, periodicidade, open_BTC_BTS, low_BTC_BTS, high_BTC_BTS, close_BTC_BTS);
     
 
@@ -98,5 +99,10 @@ module.exports = {
     var close_BTC_NXT = BTC_NXT[BTC_NXT.length - 1].last;
     var store3 = connect.store(moeda_BTC_NXT, periodicidade, open_BTC_NXT, low_BTC_NXT, high_BTC_NXT, close_BTC_NXT);
 
+ 
+    return open_BTC_BTS, low_BTC_BTS, high_BTC_BTS, close_BTC_BTS, open_BTC_DASH, low_BTC_DASH, high_BTC_DASH, close_BTC_DASH,moeda_BTC_BTS,
+    moeda_BTC_DOGE,open_BTC_DOGE, low_BTC_DOGE, high_BTC_DOGE, close_BTC_DOGE, moeda_BTC_LTC,open_BTC_LTC, low_BTC_LTC, high_BTC_LTC, close_BTC_LTC,
+    moeda_BTC_NXT,open_BTC_NXT, low_BTC_NXT, high_BTC_NXT, close_BTC_NXT;
+    
     }
 };

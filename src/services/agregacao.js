@@ -4,7 +4,7 @@ const convert = require('./eToNumber');
 const takeValues = require('./takeValues');
 
 module.exports = {
-  saveData() {
+  Data() {
       let counter_1 = 0, counter_5 = 0 , counter_10 = 0, counter_11 = 0;
       let aux_1 = 0, aux_5 = 0, aux_10 = 0;
       var cotacoes = [];
@@ -24,7 +24,7 @@ module.exports = {
            
             console.log('tamanho vetor principal',obj.length);
             
-            if (counter_1  == 3){
+            if (counter_1  == 60){
                 //Vetores para tratar algumas moedas do json
                 var BTC_BTS     = [];
                 var BTC_DASH    = [];
@@ -41,7 +41,7 @@ module.exports = {
                     copy[i] =  obj[i];
                     i++;
                 }
-                var pos = aux_1, n = 3;
+                var pos = aux_1, n = 60;
                 var ultima_cotacao = copy.splice(pos, n);
                 var periodicidade = '1 min';
                 for( var i = 0 in ultima_cotacao) {
@@ -60,7 +60,7 @@ module.exports = {
                 BTC_BTS = [], BTC_DASH =[]; BTC_DOGE =[]; BTC_LTC =[]; BTC_NXT =[];
             }
 
-            if (counter_5  == 5){
+            if (counter_5  == 300){
 
                 var BTC_BTS_5     = [];
                 var BTC_DASH_5    = [];
@@ -77,9 +77,9 @@ module.exports = {
                     copy_5[i] =  obj[i];
                     i++;
                 }
-                var pos = aux_5, n = 3;
+                var pos = aux_5, n = 300;
                 var ultima_cotacao = copy_5.splice(pos, n);
-                var periodicidade = '1 min';
+                var periodicidade = '5 min';
                 for( var i = 0 in ultima_cotacao) {
                     BTC_BTS_5.push(ultima_cotacao[i].BTC_BTS);
                     BTC_DASH_5.push(ultima_cotacao[i].BTC_DASH);
@@ -96,7 +96,7 @@ module.exports = {
                 BTC_BTS_5 = [], BTC_DASH_5 =[]; BTC_DOGE_5 =[]; BTC_LTC_5 =[]; BTC_NXT_5 =[];
             }
 
-            if (counter_10  == 9){
+            if (counter_10  == 600){
 
                 var BTC_BTS_10     = [];
                 var BTC_DASH_10    = [];
@@ -112,9 +112,9 @@ module.exports = {
                     copy_10[i] =  obj[i];
                     i++;
                 }
-                var pos = aux_10, n = 3; //alterar o n pela quantidade de segundos
+                var pos = aux_10, n = 600; //alterar o n pela quantidade de segundos
                 var ultima_cotacao = copy_10.splice(pos, n);
-                var periodicidade = '1 min';
+                var periodicidade = '10 min';
                 for( var i = 0 in ultima_cotacao) {
                     BTC_BTS_10.push(ultima_cotacao[i].BTC_BTS);
                     BTC_DASH_10.push(ultima_cotacao[i].BTC_DASH);
@@ -131,7 +131,7 @@ module.exports = {
                 BTC_BTS_10 = [], BTC_DASH_10 =[]; BTC_DOGE_10 =[]; BTC_LTC_10 =[]; BTC_NXT_10 =[];
                 //cotacoes = [];
             }
-        }, 10000);
+        }, 1000);
 
        
        
