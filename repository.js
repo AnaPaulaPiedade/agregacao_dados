@@ -1,4 +1,5 @@
 const pool = require('./src/config/connection');
+
 module.exports = {
 
     async store(moeda, periodicidade, open, low, high, close){
