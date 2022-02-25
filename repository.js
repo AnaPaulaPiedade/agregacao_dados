@@ -1,5 +1,4 @@
 const pool = require('./src/config/connection');
-const connectionMiddleware = require('./src/config/middleware');
 
 module.exports = {
 
